@@ -1,6 +1,6 @@
 # Zadanie: 
 
-Przeprowadź eksplorację wybranego zbioru danych: https://www.apispreadsheets.com/datasets/129
+Przeprowadź eksplorację zbioru danych: https://www.apispreadsheets.com/datasets/129
 
 Warunki:
 
