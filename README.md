@@ -36,4 +36,4 @@
 
 Do zaliczenia laboratorium wymagane jest uzyskanie ponad połowy możliwych do zdobycia punktów (czyli ponad 40). Dodatkowo wymagane jest zdobycie ponad 10 punktów z każdego z projektów oraz ponad 15 punktów z prac domowych.
 
-Termin na dosyłanie projektów i prac domowych kończy się o 23:59 dnia poprzedzającego zajęcia.
+Termin na nadsyłanie projektów i prac domowych kończy się w momencie rozpoczęcia zajęć.
