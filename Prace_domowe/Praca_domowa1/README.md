@@ -1,6 +1,6 @@
 # Zadanie: 
 
-Przeprowadź eksplorację wybranego zbioru danych: https://www.apispreadsheets.com/datasets/129
+Przeprowadź eksplorację zbioru danych: https://www.apispreadsheets.com/datasets/129
 
 Warunki:
 
@@ -8,8 +8,8 @@ Warunki:
 - pamiętaj o zawarciu w raporcie komentarzy (wniosków z wykresów),
 - oprócz napisania własnego kodu z użyciem matplotlib lub seaborn, wykorzystaj jedno z narzędzi do automatycznej eksploracji danych (pandas-profiling lub lens) + wskaż ograniczenia narzędzia
 	
-Termin oddania: 
-- grupy 3 i 4: 08.03.2021 (do godz. 23:59)
-- grupy 1 i 2: 11.03.2021 (do godz. 23:59)
+Termin oddania kończy się w momencie rozpoczęcia zajęć:
+- dnia 09.03 (w przypadku grup 3 i 4) 
+- dnia 12.03 (w przypadku grup 1 i 2)
 
 Rozwiązania (Jupyter/Rmd + html) proszę zgłaszać przez pull request do podfolderu z imieniem i nazwiskiem. 
