@@ -5,7 +5,7 @@ Zadanie składa się z dwóch części:
 1. Kodowanie zmiennych kategorycznych 
 
 Wykonaj target encoding dla zmiennej it_location (+ komentarz jaka jest przewaga tej metody nad one-hot encoding). Jako target traktujemy kolumnę price (będzie to więc zadanie regresji). 
-Zastosuj trzy metody encodingu (one-hot + "dwie nowe") dla kolumny main_category. "Nowe metody" proszę wybrać spośród wymienionych na stronie http://contrib.scikit-learn.org/categorical-encoding/. W przypadku gdy użyta metoda nie działa proszę o stosowną adnotację. Opisz wyniki.
+Zastosuj trzy metody encodingu (one-hot + "dwie nowe") dla kolumny main_category. "Nowe metody" proszę wybrać spośród wymienionych na stronie https://contrib.scikit-learn.org/category_encoders/. W przypadku gdy użyta metoda nie działa proszę o stosowną adnotację. Opisz wyniki.
 
 
 2. Uzupełnianie braków
