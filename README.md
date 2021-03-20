@@ -31,9 +31,8 @@
 * 20 pkt -- projekt 2. (klasteryzacja):
   * 5 pkt -- eksploracja danych (kamień milowy 1.)
   * 5 pkt -- inżynieria cech, wstępne modelowanie (kamień milowy 2.)
-  * 10 pkt -- finalne modele, prezentacja rezultatów i raport (kamień milowy 3.)
-
-<!---* 10 pkt -- zaliczenie 3 kursów na DataCamp + wypełnienie ankiety -->
+  * 10 pkt -- finalne modele, prezentacja rezultatów i raport (kamień milowy 3.
+ * 10 pkt -- zaliczenie 3 kursów na DataCamp + wypełnienie ankiety
 
 <!--- Do zaliczenia laboratorium wymagane jest uzyskanie ponad połowy możliwych do zdobycia punktów (czyli ponad 40). Dodatkowo wymagane jest zdobycie ponad 10 punktów z każdego z projektów oraz ponad 15 punktów z prac domowych. -->
 
