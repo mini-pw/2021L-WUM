@@ -1,0 +1,290 @@
+---
+title: "Gender voice"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+### Wczytanie odpowiednich bibliotek
+
+```{r setup, echo=TRUE}
+library("tuneR")
+library("seewave")
+library("reticulate")
+use_python("C:\\Users\\01143557\\AppData\\Local\\Programs\\Python\\Python39\\python.exe", required = TRUE)
+library(signal, warn.conflicts = F, quietly = T)
+library(oce, warn.conflicts = F, quietly = T) 
+```
+
+
+### Stworzenie funkcji odpowiadajcych za dalsze wykresy oraz za stworzenie finalnej ramki danych
+
+```{r}
+
+meski <- readWave("sample.wav")
+zenski <- readWave("mamiko.wav")
+
+filter <- function(wave){
+  wave <- ffilter(wave, from=0, to=280)
+  wave
+}
+
+
+duration <- function(sample){
+  dur = length(sample@left)/sample@samp.rate
+  dur 
+}
+
+sample_rate <- function(sample){
+  fs = sample@samp.rate
+  fs 
+}
+
+
+frequency_plot <- function(sample){
+  plot(sample@left[30700:31500], type = "l", main = "Sample",
+     xlab = "Time", ylab = "Frequency")
+  
+}
+
+
+waveform <- function(sample){
+  sl <- sample@left
+  sl = sl - mean(sl)
+  plot(sl, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+}
+
+spectogram <- function(sample){
+  sl <- sample@left
+  spec = specgram(x = sl,
+                  n = 1024,
+                  Fs = sample_rate(sample),
+                  window = 256,
+                  overlap = 128)
+  
+  P = abs(spec$S)
+  P = P/max(P)
+  P = 10*log10(P)
+  t = spec$t
+  
+  imagep(x = t, y = spec$f, z = t(P), col = oce.colorsViridis, 
+         ylab = 'Frequency [Hz]', xlab = 'Time [s]', drawPalette = T, decimate = F)
+}
+
+to_data_frame <- function(sample){
+  filtered_glos <- filter(sample)
+  specprop(meanspec(filtered_glos, f= 44100), f=44100)
+  minfun <- min(fund(sample, fmax=280)[,2], na.rm=TRUE)
+  meanfun <- mean(fund(sample, fmax=280)[,2], na.rm=TRUE)
+  df <- data.frame(specprop(meanspec(filtered_glos, f= 44100), f=44100), "meanfun" <- meanfun, "minfun" <-  minfun)
+  colnames(df)[1] <- c("meanfreq")
+  colnames(df)[15:16] <- c("meanfun", "minfun")
+  colnames(df)[9] <- c("centroid")
+  colnames(df)[13] <- c("sp.ent")
+  df
+}
+
+```
+
+
+
+### Dlugosc naszego dzwieku:
+
+##### meski:
+
+```{r}
+duration(meski)
+```
+
+##### zenski:
+
+```{r}
+duration(zenski)
+```
+
+
+### Liczba sampli na sekunde mierzona w Hz:
+
+##### meski
+
+```{r}
+sample_rate(meski)
+```
+##### zenski
+
+```{r}
+sample_rate(zenski)
+```
+
+### Wykres zaleznosci kolejnego sampla od amplitudy:
+
+##### meski
+
+```{r}
+waveform(meski)
+```
+##### zenski
+
+```{r}
+waveform(zenski)
+```
+
+
+### Wykres zaleznosci kolejnego sampla od czestotliwosci:
+
+##### meski
+
+```{r}
+frequency_plot(meski)
+```
+
+##### zenski
+
+```{r}
+frequency_plot(zenski)
+```
+
+
+### Spektogram naszego dzwieku, mozemy zauwazyc, w jakich czestotliwosciach wystepowaly poszczegolne sample
+
+##### meski
+
+```{r}
+spectogram(meski)
+```
+
+##### zenski
+
+```{r}
+spectogram(zenski)
+```
+
+
+
+### Zapisanie naszego dzwiekuw postaci takiej samej co w przypadku ramki danych ze strony  [link](https://www.apispreadsheets.com/datasets/119)
+
+
+##### meski
+
+```{r include=FALSE}
+meski_df <- to_data_frame(meski)
+```
+```{r}
+meski_df
+```
+##### zenski
+
+```{r include=FALSE}
+zenski_df <- to_data_frame(zenski)
+```
+```{r}
+zenski_df
+```
+
+## Do eksploracji naszego zbioru danych użylismy Pythona.
+
+### Importowanie niezbednych bibliotek
+
+```{python}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib
+import requests
+```
+
+### Wczytanie ramki danych, wywolanie head()
+
+```{python echo=TRUE}
+df=requests.get("https://api.apispreadsheets.com/api/dataset/gender-voice/").json()
+from pandas import json_normalize 
+voice_df = json_normalize(df, 'data')
+voice_df.head()
+```
+### Objasnienie danych zawartych w ramce
+- meanfreq - srednia czestotliwosc (w kHz)
+- sd       - odchylenie standardowe
+- median     - mediana czestotliwosci (w kHz)
+- Q25     - pierwszy kwantyl czestotliwosci (w kHz)
+- Q75     - trzeci kwantyl (w kHz)
+- IQR     - Rozstep cwiartkowy (w kHz)
+- skew     - skosnosc
+- kurt     - kurtoza
+- sp.ent     - entropia spektrum - mierzy nieregularnosc sygnalu
+- sfm     - plaskosc spektrum - pokazuje jak bardzo sygnal jest plaski w opozycji do bycia szumem
+- mode     - moda czestotliwosci
+- centroid - wskazuje centrum masy spektrum
+- meanfun     - srednia czestotliwosci tonu podstawowego - najnizszego tonu - dzwieku szeregu harmonicznego
+- minfun     - minimum czestotliwosci tonu podstawowego
+- maxfun     - maksimum czestotliwosci tonu podstawowego
+- meandom     - srednia czestotliwosci z najwieksza ampliduda
+- mindom     - minimum czestotliwosci z najwieksza ampliduda
+- maxdom     - maksimum czestotliwosci z najwieksza ampliduda
+- dfrange     - zasieg najwiekszej amplitudy tonu podstawowego
+- modindx     - wskaznik dewiacji czestotliwosci - iloczyn czestotliwosci sygnalu nosnego do dewiacji czestotliwosci
+
+
+### Wywolanie info()
+```{python echo=TRUE}
+voice_df.info()
+```
+##### Jak widac nie mamy zadnych brakujacych wartosci
+
+### Histogramy przedstawiajace rozklad kazdej zmiennej objasniajacej
+
+```{python echo=TRUE}
+voice_df.hist(figsize=(18, 12), bins=30);
+plt.show()
+```
+
+### Heatmapa przedstawiajaca korelacje pomiedzy zmiennymi
+
+```{python}
+sns.set(font_scale=2.5)
+fig, ax = plt.subplots(figsize = (30, 25))
+sns.heatmap(round(abs(voice_df.corr()), 2), cmap="cividis", annot = True, vmin=0, vmax=1, linewidths=1, linecolor='white', annot_kws={"fontsize":20});
+plt.show()
+sns.set(font_scale=1)
+```
+
+
+### Pairploty dla czterech najbardziej charakterystycznych zmiennych
+
+```{python}
+g = sns.pairplot(voice_df[['sd', 'IQR', 'meanfun', 'Q25', 'label']], hue = 'label', height = 3,  plot_kws = {'alpha': 0.6})
+g.map_lower(sns.kdeplot, levels=4, color=".2");
+plt.show()
+```
+
+### Ridgeploty dla dwóch zmiennych, których nie udalo nam sie zreprodukowac
+
+```{python}
+def ridgeplot(voice_df, label1):
+    rp = sns.FacetGrid(voice_df, row="label", hue="label", aspect=5, height=1.25) 
+    rp.map(sns.kdeplot, label1, bw_adjust=.5, clip_on=False, fill=True, alpha=1, linewidth=1.5)
+    rp.map(sns.kdeplot, label1, clip_on=False, color="w", lw=2, bw_adjust=.5)
+    rp.map(plt.axhline, y=0, lw=2, clip_on=False)
+    def label(x, color, label):
+        ax = plt.gca()
+        ax.text(0, .2, label, fontweight="bold", color=color, ha="left", va="center", transform=ax.transAxes)
+    rp.map(label, label1)
+    rp.set_titles("")
+    rp.despine(bottom=True, left=True)
+    rp.fig.tight_layout()
+    
+cols = voice_df.columns.values[0:18].tolist
+```
+
+```{python}
+ridgeplot(voice_df, "dfrange")
+plt.show()
+```
+
+```{python}
+ridgeplot(voice_df, "modindx")
+plt.show()
+```
+
+##### Jak widac zmienne te sa niemalże identyczne dla glosu żeńskiego jak i dla glosu meskiego. Oznacza to, że w przyszlosci bedziemy mogli je pominac w naszym modelu, bez znaczacego wplywu na jego zdolnosci predykcyjne.
