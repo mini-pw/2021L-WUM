@@ -14637,32 +14637,18 @@ Lecz najpierw przygotujmy narzędzie do wypisywania statystyk naszego modelu.</p
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[186]:</div>
+<div class="prompt input_prompt">In&nbsp;[260]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Potrzebujemy funkcji dla klasyfikacji oraz dla regresji</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">accuracy_score</span>
 <span class="k">def</span> <span class="nf">print_scores_wines</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sets</span><span class="p">):</span>
-    <span class="n">X_train_</span> <span class="p">,</span> <span class="n">X_test_</span><span class="p">,</span> <span class="n">y_train_</span> <span class="p">,</span> <span class="n">y_test_</span> <span class="o">=</span> <span class="n">sets</span>
-    
-    <span class="n">y_predict_train_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_</span><span class="p">)</span>
-    <span class="n">y_predict_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_</span><span class="p">)</span>
-    <span class="n">y_proba_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_</span><span class="p">)</span>
+    <span class="n">x_train</span> <span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span> <span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sets</span>
+    <span class="n">y_predict_train</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+    <span class="n">y_predict_test</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
     
     <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;Accuracy score: </span><span class="si">{:.4f}</span><span class="s2"> (Train)</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;Accuracy score: </span><span class="si">{:.4f}</span><span class="s2"> (Test)</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot; ROC_AUC score: </span><span class="si">{:.4f}</span><span class="s2"> (One v One, Weighted)</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot; ROC_AUC score: </span><span class="si">{:.4f}</span><span class="s2"> (One v Rest, Weighted)</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;      F1 score: </span><span class="si">{:.4f}</span><span class="s2"> (Weighted)</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train_</span><span class="p">,</span> <span class="n">y_predict_train_</span><span class="p">),</span>
-            <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test_</span><span class="p">,</span> <span class="n">y_predict_</span><span class="p">),</span>
-            <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test_</span><span class="p">,</span> <span class="n">y_proba_</span><span class="p">,</span> <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovo&quot;</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">),</span>
-            <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test_</span><span class="p">,</span> <span class="n">y_proba_</span><span class="p">,</span> <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovr&quot;</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">),</span>
-            <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test_</span><span class="p">,</span> <span class="n">y_predict_</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+        <span class="s2">&quot;Accuracy (Train):&quot;</span><span class="p">,</span>  <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_predict_train</span><span class="p">),</span>
+        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Accuracy (Test):&quot;</span><span class="p">,</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict_test</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14680,13 +14666,13 @@ Lecz najpierw przygotujmy narzędzie do wypisywania statystyk naszego modelu.</p
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[253]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_socres_apartments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">sets</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_scores_apartments</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">sets</span><span class="p">):</span>
     <span class="n">X_train_</span> <span class="p">,</span> <span class="n">X_test_</span><span class="p">,</span> <span class="n">y_train_</span> <span class="p">,</span> <span class="n">y_test_</span> <span class="o">=</span> <span class="n">sets</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE train: &#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE test: &#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>   
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE (train): &#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MSE (test): &#39;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_</span><span class="p">),</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>   
 </pre></div>
 
     </div>
@@ -14711,7 +14697,7 @@ Lecz najpierw przygotujmy narzędzie do wypisywania statystyk naszego modelu.</p
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[196]:</div>
+<div class="prompt input_prompt">In&nbsp;[242]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_socres_apartments</span><span class="p">(</span><span class="n">model_1</span><span class="p">,[</span><span class="n">apart_train</span><span class="p">,</span><span class="n">apart_test</span><span class="p">,</span><span class="n">y_apart_train</span><span class="p">,</span><span class="n">y_apart_test</span><span class="p">])</span>
@@ -14731,8 +14717,8 @@ Lecz najpierw przygotujmy narzędzie do wypisywania statystyk naszego modelu.</p
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>MSE train:  668.7243228715403
-MSE test:  707.5422390218127
+<pre>MSE (train):  668.7243228715403
+MSE (test):  707.5422390218127
 </pre>
 </div>
 </div>
@@ -14766,7 +14752,7 @@ Zacznijmy od standaryzacji i od zbioru apartments.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[177]:</div>
+<div class="prompt input_prompt">In&nbsp;[243]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_socres_apartments</span><span class="p">(</span><span class="n">model_2</span><span class="p">,[</span><span class="n">apart_s_train</span><span class="p">,</span><span class="n">apart_s_test</span><span class="p">,</span><span class="n">y_apart_s_train</span><span class="p">,</span><span class="n">y_apart_s_test</span><span class="p">])</span>
@@ -14786,8 +14772,8 @@ Zacznijmy od standaryzacji i od zbioru apartments.</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>MSE train:  904.4803342251284
-MSE test:  917.8255798352975
+<pre>MSE (train):  904.4803342251284
+MSE (test):  917.8255798352975
 </pre>
 </div>
 </div>
@@ -14813,7 +14799,7 @@ MSE test:  917.8255798352975
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[182]:</div>
+<div class="prompt input_prompt">In&nbsp;[244]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_socres_apartments</span><span class="p">(</span><span class="n">model_3</span><span class="p">,[</span><span class="n">apart_n_train</span><span class="p">,</span><span class="n">apart_n_test</span><span class="p">,</span><span class="n">y_apart_n_train</span><span class="p">,</span><span class="n">y_apart_n_test</span><span class="p">])</span>
@@ -14833,8 +14819,8 @@ MSE test:  917.8255798352975
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>MSE train:  920.411583658818
-MSE test:  894.7449147662143
+<pre>MSE (train):  920.411583658818
+MSE (test):  894.7449147662143
 </pre>
 </div>
 </div>
@@ -14867,7 +14853,7 @@ MSE test:  894.7449147662143
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[192]:</div>
+<div class="prompt input_prompt">In&nbsp;[247]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_scores_wines</span><span class="p">(</span><span class="n">model_4</span><span class="p">,[</span><span class="n">wine_train</span><span class="p">,</span><span class="n">wine_test</span><span class="p">,</span><span class="n">y_wine_train</span><span class="p">,</span><span class="n">y_wine_test</span><span class="p">])</span>
@@ -14887,12 +14873,8 @@ MSE test:  894.7449147662143
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Accuracy score: 0.6604 (Train)
-Accuracy score: 0.7083 (Test)
- ROC_AUC score: 0.9112 (One v One, Weighted)
- ROC_AUC score: 0.9142 (One v Rest, Weighted)
-      F1 score: 0.6340 (Weighted)
-
+<pre>Accuracy (Train): 0.660377358490566 
+Accuracy (Test): 0.7083333333333334
 </pre>
 </div>
 </div>
@@ -14918,7 +14900,7 @@ Accuracy score: 0.7083 (Test)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[200]:</div>
+<div class="prompt input_prompt">In&nbsp;[248]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_scores_wines</span><span class="p">(</span><span class="n">model_5</span><span class="p">,[</span><span class="n">wine_s_train</span><span class="p">,</span><span class="n">wine_s_test</span><span class="p">,</span><span class="n">y_wine_s_train</span><span class="p">,</span><span class="n">y_wine_s_test</span><span class="p">])</span>
@@ -14938,12 +14920,8 @@ Accuracy score: 0.7083 (Test)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Accuracy score: 1.0000 (Train)
-Accuracy score: 1.0000 (Test)
- ROC_AUC score: 1.0000 (One v One, Weighted)
- ROC_AUC score: 1.0000 (One v Rest, Weighted)
-      F1 score: 1.0000 (Weighted)
-
+<pre>Accuracy (Train): 1.0 
+Accuracy (Test): 1.0
 </pre>
 </div>
 </div>
@@ -14969,7 +14947,7 @@ Accuracy score: 1.0000 (Test)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[202]:</div>
+<div class="prompt input_prompt">In&nbsp;[249]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_scores_wines</span><span class="p">(</span><span class="n">model_5</span><span class="p">,[</span><span class="n">wine_n_train</span><span class="p">,</span><span class="n">wine_n_test</span><span class="p">,</span><span class="n">y_wine_n_train</span><span class="p">,</span><span class="n">y_wine_n_test</span><span class="p">])</span>
@@ -14989,12 +14967,8 @@ Accuracy score: 1.0000 (Test)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Accuracy score: 0.4151 (Train)
-Accuracy score: 0.4167 (Test)
- ROC_AUC score: 0.8385 (One v One, Weighted)
- ROC_AUC score: 0.8275 (One v Rest, Weighted)
-      F1 score: 0.3345 (Weighted)
-
+<pre>Accuracy (Train): 0.41509433962264153 
+Accuracy (Test): 0.4166666666666667
 </pre>
 </div>
 </div>
@@ -15017,23 +14991,25 @@ Będziemy optymalizować model ze względu na:<br>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[213]:</div>
+<div class="prompt input_prompt">In&nbsp;[223]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Przygotujmy model</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">RandomizedSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">StratifiedKFold</span> 
 
 <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;svr__degree&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-            <span class="s1">&#39;svr__C&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
-            <span class="s1">&#39;svr__gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="s1">&#39;auto&#39;</span><span class="p">]</span>
+            <span class="s1">&#39;degree&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+            <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="s1">&#39;auto&#39;</span><span class="p">]</span>
         <span class="p">}</span>
 
 <span class="n">random_model</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span>
-    <span class="n">estimator</span><span class="o">=</span><span class="n">SVC</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">SVC</span><span class="p">(</span><span class="n">probability</span> <span class="o">=</span> <span class="kc">True</span><span class="p">),</span>
     <span class="n">param_distributions</span><span class="o">=</span><span class="n">param</span><span class="p">,</span>
     <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">scoring</span> <span class="o">=</span><span class="s1">&#39;neg_root_mean_squared_error&#39;</span><span class="p">,</span>
+    <span class="n">cv</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -15052,11 +15028,25 @@ Będziemy optymalizować model ze względu na:<br>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[214]:</div>
+<div class="prompt input_prompt">In&nbsp;[251]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Apartments bez skalowania</span>
 <span class="n">random_apart</span> <span class="o">=</span> <span class="n">random_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">apart_train</span><span class="p">,</span><span class="n">y_apart_train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[254]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_scores_apartments</span><span class="p">(</span><span class="n">random_apart</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,[</span><span class="n">apart_train</span><span class="p">,</span><span class="n">apart_test</span><span class="p">,</span><span class="n">y_apart_train</span><span class="p">,</span><span class="n">y_apart_test</span><span class="p">])</span>
+<span class="n">random_apart</span><span class="o">.</span><span class="n">best_params_</span>
 </pre></div>
 
     </div>
@@ -15072,70 +15062,24 @@ Będziemy optymalizować model ze względu na:<br>
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-214-a3106870ff02&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">      1</span> <span class="ansi-red-intense-fg ansi-bold">#Apartments bez skalowania</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>random_apart <span class="ansi-yellow-intense-fg ansi-bold">=</span> random_model<span class="ansi-yellow-intense-fg ansi-bold">.</span>fit<span class="ansi-yellow-intense-fg ansi-bold">(</span>apart_train<span class="ansi-yellow-intense-fg ansi-bold">,</span>y_apart_train<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\utils\validation.py</span> in <span class="ansi-cyan-fg">inner_f</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
-<span class="ansi-green-fg">     61</span>             extra_args <span class="ansi-yellow-intense-fg ansi-bold">=</span> len<span class="ansi-yellow-intense-fg ansi-bold">(</span>args<span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-yellow-intense-fg ansi-bold">-</span> len<span class="ansi-yellow-intense-fg ansi-bold">(</span>all_args<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">     62</span>             <span class="ansi-green-intense-fg ansi-bold">if</span> extra_args <span class="ansi-yellow-intense-fg ansi-bold">&lt;=</span> <span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 63</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span><span class="ansi-green-intense-fg ansi-bold">return</span> f<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">     64</span> 
-<span class="ansi-green-fg">     65</span>             <span class="ansi-red-intense-fg ansi-bold"># extra_args &gt; 0</span>
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_search.py</span> in <span class="ansi-cyan-fg">fit</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y, groups, **fit_params)</span>
-<span class="ansi-green-fg">    839</span>                 <span class="ansi-green-intense-fg ansi-bold">return</span> results
-<span class="ansi-green-fg">    840</span> 
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 841</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_run_search<span class="ansi-yellow-intense-fg ansi-bold">(</span>evaluate_candidates<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    842</span> 
-<span class="ansi-green-fg">    843</span>             <span class="ansi-red-intense-fg ansi-bold"># multimetric is determined here because in the case of a callable</span>
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_search.py</span> in <span class="ansi-cyan-fg">_run_search</span><span class="ansi-blue-intense-fg ansi-bold">(self, evaluate_candidates)</span>
-<span class="ansi-green-fg">   1619</span>         evaluate_candidates(ParameterSampler(
-<span class="ansi-green-fg">   1620</span>             self<span class="ansi-yellow-intense-fg ansi-bold">.</span>param_distributions<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>n_iter<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1621</span><span class="ansi-yellow-intense-fg ansi-bold">             random_state=self.random_state))
-</span>
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_search.py</span> in <span class="ansi-cyan-fg">evaluate_candidates</span><span class="ansi-blue-intense-fg ansi-bold">(candidate_params, cv, more_results)</span>
-<span class="ansi-green-fg">    807</span>                                    (split_idx, (train, test)) in product(
-<span class="ansi-green-fg">    808</span>                                    enumerate<span class="ansi-yellow-intense-fg ansi-bold">(</span>candidate_params<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 809</span><span class="ansi-yellow-intense-fg ansi-bold">                                    enumerate(cv.split(X, y, groups))))
-</span><span class="ansi-green-fg">    810</span> 
-<span class="ansi-green-fg">    811</span>                 <span class="ansi-green-intense-fg ansi-bold">if</span> len<span class="ansi-yellow-intense-fg ansi-bold">(</span>out<span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-yellow-intense-fg ansi-bold">&lt;</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_split.py</span> in <span class="ansi-cyan-fg">split</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y, groups)</span>
-<span class="ansi-green-fg">    330</span>                 .format(self.n_splits, n_samples))
-<span class="ansi-green-fg">    331</span> 
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 332</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">for</span> train<span class="ansi-yellow-intense-fg ansi-bold">,</span> test <span class="ansi-green-intense-fg ansi-bold">in</span> super<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>split<span class="ansi-yellow-intense-fg ansi-bold">(</span>X<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">,</span> groups<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">    333</span>             <span class="ansi-green-intense-fg ansi-bold">yield</span> train<span class="ansi-yellow-intense-fg ansi-bold">,</span> test
-<span class="ansi-green-fg">    334</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_split.py</span> in <span class="ansi-cyan-fg">split</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y, groups)</span>
-<span class="ansi-green-fg">     78</span>         X<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">,</span> groups <span class="ansi-yellow-intense-fg ansi-bold">=</span> indexable<span class="ansi-yellow-intense-fg ansi-bold">(</span>X<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">,</span> groups<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">     79</span>         indices <span class="ansi-yellow-intense-fg ansi-bold">=</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>arange<span class="ansi-yellow-intense-fg ansi-bold">(</span>_num_samples<span class="ansi-yellow-intense-fg ansi-bold">(</span>X<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 80</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">for</span> test_index <span class="ansi-green-intense-fg ansi-bold">in</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_iter_test_masks<span class="ansi-yellow-intense-fg ansi-bold">(</span>X<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">,</span> groups<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">     81</span>             train_index <span class="ansi-yellow-intense-fg ansi-bold">=</span> indices<span class="ansi-yellow-intense-fg ansi-bold">[</span>np<span class="ansi-yellow-intense-fg ansi-bold">.</span>logical_not<span class="ansi-yellow-intense-fg ansi-bold">(</span>test_index<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
-<span class="ansi-green-fg">     82</span>             test_index <span class="ansi-yellow-intense-fg ansi-bold">=</span> indices<span class="ansi-yellow-intense-fg ansi-bold">[</span>test_index<span class="ansi-yellow-intense-fg ansi-bold">]</span>
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_split.py</span> in <span class="ansi-cyan-fg">_iter_test_masks</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y, groups)</span>
-<span class="ansi-green-fg">    691</span> 
-<span class="ansi-green-fg">    692</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> _iter_test_masks<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> X<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> groups<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 693</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>test_folds <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_make_test_folds<span class="ansi-yellow-intense-fg ansi-bold">(</span>X<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    694</span>         <span class="ansi-green-intense-fg ansi-bold">for</span> i <span class="ansi-green-intense-fg ansi-bold">in</span> range<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>n_splits<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">    695</span>             <span class="ansi-green-intense-fg ansi-bold">yield</span> test_folds <span class="ansi-yellow-intense-fg ansi-bold">==</span> i
-
-<span class="ansi-green-intense-fg ansi-bold">D:\Anaconda\lib\site-packages\sklearn\model_selection\_split.py</span> in <span class="ansi-cyan-fg">_make_test_folds</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y)</span>
-<span class="ansi-green-fg">    662</span>             raise ValueError(&#34;n_splits=%d cannot be greater than the&#34;
-<span class="ansi-green-fg">    663</span>                              <span class="ansi-blue-intense-fg ansi-bold">&#34; number of members in each class.&#34;</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 664</span><span class="ansi-yellow-intense-fg ansi-bold">                              % (self.n_splits))
-</span><span class="ansi-green-fg">    665</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>n_splits <span class="ansi-yellow-intense-fg ansi-bold">&gt;</span> min_groups<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">    666</span>             warnings.warn((&#34;The least populated class in y has only %d&#34;
-
-<span class="ansi-red-intense-fg ansi-bold">ValueError</span>: n_splits=5 cannot be greater than the number of members in each class.</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>MSE (train):  26.286910557664754
+MSE (test):  30.122582890582276
+</pre>
 </div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[254]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;gamma&#39;: &#39;scale&#39;, &#39;degree&#39;: 214, &#39;C&#39;: 894.0}</pre>
+</div>
+
 </div>
 
 </div>
@@ -15144,16 +15088,278 @@ Będziemy optymalizować model ze względu na:<br>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[255]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Apartments ze skalowaniem, standaryzacja</span>
+<span class="n">random_apart_s</span> <span class="o">=</span> <span class="n">random_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">apart_s_train</span><span class="p">,</span><span class="n">y_apart_s_train</span><span class="p">)</span>
+<span class="n">print_socres_apartments</span><span class="p">(</span><span class="n">random_apart_s</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,[</span><span class="n">apart_s_train</span><span class="p">,</span><span class="n">apart_s_test</span><span class="p">,</span><span class="n">y_apart_s_train</span><span class="p">,</span><span class="n">y_apart_s_test</span><span class="p">])</span>
+<span class="n">random_apart_s</span><span class="o">.</span><span class="n">best_params_</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>MSE (train):  25.964880126817455
+MSE (test):  27.925884050464724
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[255]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;gamma&#39;: &#39;scale&#39;, &#39;degree&#39;: 780, &#39;C&#39;: 681.5}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[256]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Apartments ze skalowaniem, normalizacja</span>
+<span class="n">random_apart_n</span> <span class="o">=</span> <span class="n">random_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">apart_n_train</span><span class="p">,</span><span class="n">y_apart_n_train</span><span class="p">)</span>
+<span class="n">print_socres_apartments</span><span class="p">(</span><span class="n">random_apart_n</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,[</span><span class="n">apart_n_train</span><span class="p">,</span><span class="n">apart_n_test</span><span class="p">,</span><span class="n">y_apart_n_train</span><span class="p">,</span><span class="n">y_apart_n_test</span><span class="p">])</span>
+<span class="n">random_apart_n</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>MSE (train):  26.17065786970846
+MSE (test):  28.55402773690605
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[256]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;gamma&#39;: &#39;scale&#39;, &#39;degree&#39;: 893, &#39;C&#39;: 600.0}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Wyniki nie są duże, choć, w porównaniu z domyślnymi parametrami, to poprawa jest nadzwyczajna. Pomiędzy wartościami między tabelami nie ma dużych różnic, lecz najlepsza okazała się normalizacja.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Teraz zajmijmy się tabelką wines, z problemem klasyfikacji.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[257]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Wines bez skalowania</span>
+<span class="n">random_wines</span> <span class="o">=</span> <span class="n">random_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">wine_train</span><span class="p">,</span><span class="n">y_wine_train</span><span class="p">)</span>
+<span class="n">print_scores_wines</span><span class="p">(</span><span class="n">random_wines</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,[</span><span class="n">wine_train</span><span class="p">,</span><span class="n">wine_test</span><span class="p">,</span><span class="n">y_wine_train</span><span class="p">,</span><span class="n">y_wine_test</span><span class="p">])</span>
+<span class="n">random_wines</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Accuracy (Train): 0.9150943396226415 
+Accuracy (Test): 0.8888888888888888
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[257]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;gamma&#39;: &#39;scale&#39;, &#39;degree&#39;: 571, &#39;C&#39;: 755.0}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[258]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Wines z skalowaniem, standaryzacja</span>
+<span class="n">random_wines_s</span> <span class="o">=</span> <span class="n">random_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">wine_s_train</span><span class="p">,</span><span class="n">y_wine_s_train</span><span class="p">)</span>
+<span class="n">print_scores_wines</span><span class="p">(</span><span class="n">random_wines_s</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,[</span><span class="n">wine_s_train</span><span class="p">,</span><span class="n">wine_s_test</span><span class="p">,</span><span class="n">y_wine_s_train</span><span class="p">,</span><span class="n">y_wine_s_test</span><span class="p">])</span>
+<span class="n">random_wines_s</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Accuracy (Train): 1.0 
+Accuracy (Test): 1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[258]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;gamma&#39;: &#39;scale&#39;, &#39;degree&#39;: 568, &#39;C&#39;: 289.0}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[259]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Wines z skalowaniem, Normalizacja</span>
+<span class="n">random_wines_n</span> <span class="o">=</span> <span class="n">random_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">wine_s_train</span><span class="p">,</span><span class="n">y_wine_s_train</span><span class="p">)</span>
+<span class="n">print_scores_wines</span><span class="p">(</span><span class="n">random_wines_n</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,[</span><span class="n">wine_n_train</span><span class="p">,</span><span class="n">wine_n_test</span><span class="p">,</span><span class="n">y_wine_n_train</span><span class="p">,</span><span class="n">y_wine_n_test</span><span class="p">])</span>
+<span class="n">random_wines_n</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Accuracy (Train): 0.37735849056603776 
+Accuracy (Test): 0.3611111111111111
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[259]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;gamma&#39;: &#39;scale&#39;, &#39;degree&#39;: 800, &#39;C&#39;: 793.5}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Wnioski">Wnioski<a class="anchor-link" href="#Wnioski">&#182;</a></h2><p>W ogólności skalowanie poprawiało wyniki naszych przewidywań, jednakże, co ciekawe, to co poprawiło je w stopniu największym było tuningowanie parametrów. Na optymalnych parametrów, dany model osiągał znacznie lepsze wyniki. Standaryzacja okazała się lepsza, jednakże ma tendencje do przeuczania się. W przypadku normalizacji, dla problemu klasyfikacji często zwaracała po prostu gorsze wyniki, lecz w przypadku regresji okazała się najlesza.<br>
+Również co okazało się ciekawe, w tuningowaniu parametrów, w każdym przypadku parametr gamma:'sacle' okazał się najbardziej optymalny, lecz dla różnych skalowań, parametry 'degree' oraz 'C' miały różne wartości, zależne od typu skalowania lub jego braku.<br>
+Zatem dobór normalizacji oraz standaryzacji jest znaczący w zależności od typów rozkładów jakie posiadamy i może zadecydować o finalnej jakości modelu.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Czy-skalowanie-si&#281;-op&#322;aca">Czy skalowanie si&#281; op&#322;aca<a class="anchor-link" href="#Czy-skalowanie-si&#281;-op&#322;aca">&#182;</a></h2><p>Treść artykułu <a href="http://pyml.sourceforge.net/doc/howto.pdf">http://pyml.sourceforge.net/doc/howto.pdf</a>, który zwraca uwagę na skalowanie danych w modelach SVM, robi to słusznie. Jak zobaczyliśmy w naszych danych, standaryzacja oraz normalizacja zawsze poprawiała wyniki w obrębie zadania regresji, w obrębie klasyfikacji nie zawszę tak zachodziło również standaryzacja miała zły nawyk do przeuczania się.<br>
+Ogólniej rzecz biorąc, dla modelów optymalnych normalizacja oraz standaryzacja poprawiają wyniki w sposób widoczny, choć nie znaczący, a zatem ostatecznie autorzy poprawnie zwrócili uwagę na skalowanie w tego typu problemach.</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>
