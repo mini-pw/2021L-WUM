@@ -15,3 +15,14 @@ Wykorzystaj dwa zbiory danych:
 * degree, 
 najprościej optymalizować hiperparametry w SVM z jądrem gaussowskim, ale można też poszukać najlepszego jądra.
 
+
+## Zadanie bonusowe za 2 punkty (uwzględnione w całościowej punktacji przedmiotu) 
+
+Aby uzyskać bonusowy punkt należy wykorzystać po raz kolejny zbiór danych z PD2 i nauczyć dowolny modele regresji do prognozowania zmiennej price (traktujemy ją teraz jak zmienną celu). W kwestii zmiennych objaśniających należy się ograniczyć do main_category, categories i it_location.  
+
+Rozwiązanie powinno zawierać: 
+- zastosowanie target encodingu (należy przemyśleć parametr smoothing i wyjaśnić dlaczego jest on ważny)
+- nauczenie modelu liniowego do przewidywania ceny produktu  
+- zastosowanie co najmniej dwóch wariantów regularyzacji i przeanalizowanie ich wpływu na jakość predykcji (należy dodać krótki opis zastosowanych metod) 
+- nauczenie innego modelu regresyjnego  
+- wykorzystanie miary RMSE i R2 do wybrania najlepszego wariantu modelu 
