@@ -15,9 +15,9 @@
 | 20.04 | 15.04 |                                                                         | Konsultacje                      | Prezentacja projektu 1. <br> Początek projektu 2.     |
 | 27.04 | 23.04 | Klasteryzacja                                                           | Termin oddania PD4, początek PD5 | Konsultacje                  |                   
 | 11.05 | 30.04 |                                                                         | Konsultacje                      | Oddanie kamienia milowego 1. |
-| 18.05 | 07.05 | Klasteryzacja c.d.                                                      | Termin oddania PD5, początek PD6 | Konsultacje                  |
+| 18.05 | 07.05 | Redukcja wymiarów                                                       | Termin oddania PD5, początek PD6 | Konsultacje                  |
 | 25.05 | 12.05 |                                                                         | Konsultacje                      | Oddanie kamienia milowego 2. |
-| 01.06 | 21.05 | Redukcja wymiarów                                                       | Termin oddania PD6, początek PD7 | Konsultacje                  |
+| 01.06 | 21.05 | Klasteryzacja c.d.                                                      | Termin oddania PD6, początek PD7 | Konsultacje                  |
 | 08.06 | 28.05 |  | Konsultacje                                                          | Prezentacja projektu 2.          |                              |
 | 15.06 | 11.06 | TBD                                         | Termin oddania PD7               |                              |                                                                                            
 
