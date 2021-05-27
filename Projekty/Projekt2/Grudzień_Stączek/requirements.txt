@@ -1,0 +1,7 @@
+wordcloud==1.8.1
+gensim==4.0.1
+pyLDAvis==3.3.1
+textstat==0.7.0
+vaderSentiment
+nltk
+cufflinks
